@@ -47,7 +47,7 @@ stages:
   dependsOn: Build
   variables:
     acrdevurl: 'azuredevopskm.azurecr.io'
-    replicaNo: 2
+    replicaNo: 1
   jobs:
   - deployment: Deploy
     displayName: Deploy to AKS
