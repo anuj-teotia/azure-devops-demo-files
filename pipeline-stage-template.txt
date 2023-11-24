@@ -1,0 +1,21 @@
+stages:
+- stage: Build
+  displayName: Build Maven and Docker Image
+  jobs:
+  - job: Build
+    displayName: Maven Build
+    pool:
+      vmImage: ubuntu-latest
+    
+    
+    steps:
+      - task: Maven@4
+        inputs:
+          mavenPomFile: 'pom.xml'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          mavenVersionOption: 'Default'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
