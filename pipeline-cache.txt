@@ -1,0 +1,30 @@
+trigger:
+- none
+
+stages:
+- stage: Build
+  displayName: Build Maven and Docker Image
+  jobs:
+  - job: Build
+    displayName: Maven Build
+    pool:
+      vmImage: ubuntu-latest
+    
+    
+    steps:
+    - task: Cache@2
+      inputs:
+        key: 'maven | "$(Agent.OS)"  | **/pom.xml'
+        path: $(HOME)/.m2/repository
+      displayName: Cache the maven dependencies 
+    - task: Maven@4
+      inputs:
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
